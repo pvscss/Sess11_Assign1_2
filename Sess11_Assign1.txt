@@ -1,0 +1,57 @@
+Task 1:Create a visual for representing missing values in the dataset.
+
+A:
+> unzip(file.choose(),exdir = ".")
+> dm<-read.table(file.choose(),sep = ";",header = TRUE)
+> View(dm)
+> sum(is.na(dm))
+[1] 0
+> dm$default[dm$default=="no"]<-NA
+> View(dm)
+> sum(is.na(dm))
+[1] 32588
+> library(Amelia)
+Loading required package: Rcpp
+## 
+## Amelia II: Multiple Imputation
+## (Version 1.7.4, built: 2015-12-05)
+## Copyright (C) 2005-2018 James Honaker, Gary King and Matthew Blackwell
+## Refer to http://gking.harvard.edu/amelia/ for more information
+## 
+> missmap(dm)
+
+Task 2: Show a distribution of clients based on a Job.
+
+A:
+library(ggplot2)
+ggplot(dm,aes(x="",y=dm$age,fill=dm$job))+geom_bar(width=1,stat="identity")+coord_polar("y",start=0)
+
+Task 3: Check whether is there any relation between Job and Marital Status?
+A: 
+There is some kind of relation between Job and Marital Status.
+
+chisq.test(dm$job,dm$marital)
+
+	Pearson's Chi-squared test
+
+data:  dm$job and dm$marital
+X-squared = 4197.5, df = 33, p-value < 2.2e-16
+
+Warning message:
+In chisq.test(dm$job, dm$marital) :
+  Chi-squared approximation may be incorrect
+
+Task 4 : Check whether is there any association between Job and Education?
+
+A: 
+There is some kind of relation between Job and Education.
+chisq.test(dm$job,dm$education)
+
+	Pearson's Chi-squared test
+
+data:  dm$job and dm$education
+X-squared = 37338, df = 77, p-value < 2.2e-16
+
+Warning message:
+In chisq.test(dm$job, dm$education) :
+  Chi-squared approximation may be incorrect
